@@ -72,7 +72,6 @@ def analyze_meal(meal):
 
 
 ##############
-import streamlit as st
 
 # CSS로 네비게이션 바 스타일링
 st.markdown(
@@ -143,13 +142,6 @@ st.markdown(
 # 메인 컨텐츠를 감싸는 div
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
-# 여기에 기존 컨텐츠 추가
-st.title("🍱 늙지마켓")
-st.caption("늙음을 막는 한 끼 식단, AI가 분석해드립니다.")
-
-# 메인 컨텐츠 div 닫기
-st.markdown("</div>", unsafe_allow_html=True)
-
 
 # 🌐 Streamlit UI 구성
 st.set_page_config(page_title="젊밥 🍱", layout="centered")
@@ -207,3 +199,7 @@ if user_input:
             ]
         )
         st.chat_message("assistant").write(res.text)
+
+
+# 메인 컨텐츠 div 닫기
+st.markdown("</div>", unsafe_allow_html=True)
