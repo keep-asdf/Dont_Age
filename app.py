@@ -189,7 +189,7 @@ with col2:
 
             st.markdown(
                 """
-                <h2 style='font-size: 2.5em; text-align: center; margin-bottom: 1em;'>🥗 식단 구성</h2>
+                <h2 style='font-size: 2.5em; text-align: left; margin-bottom: 1em;'>🥗 식단 구성</h2>
                 """,
                 unsafe_allow_html=True,
             )
