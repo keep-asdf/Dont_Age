@@ -190,11 +190,14 @@ with col2:
             st.subheader("🥗 식단 구성")
             st.markdown(
                 f"""
-                - 🍚 **주식**: {meal['grain']}
-                - 🍗 **단백질**: {meal['protein']}
-                - 🥦 **채소**: {meal['vegetable']}
-                - 🍇 **간식/음료**: {meal['extra']}
-                """
+                <div style='font-size: 1.5em; line-height: 2em;'>
+                    - 🍚 <strong>주식</strong>: {meal['grain']}
+                    - 🍗 <strong>단백질</strong>: {meal['protein']}
+                    - 🥦 <strong>채소</strong>: {meal['vegetable']}
+                    - 🍇 <strong>간식/음료</strong>: {meal['extra']}
+                </div>
+                """,
+                unsafe_allow_html=True,
             )
 
             with st.spinner("AI가 식단을 분석 중입니다..."):
