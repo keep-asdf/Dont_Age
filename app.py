@@ -266,7 +266,9 @@ with col2:
             """,
                 unsafe_allow_html=True,
             )
-
+            # 세션 상태에 이미지 생성 상태 추가
+            if "image_generated" not in st.session_state:
+                st.session_state.image_generated = False
             # 기존 코드의 마지막 부분 (st.success(result["reply"]) 다음에 추가)
             st.markdown("### 💡 종합 분석")
             st.success(result["reply"])
