@@ -182,20 +182,21 @@ with col2:
             st.session_state.last_meal_time = current_time
             meal = get_random_meal()
 
+            # 여기서부터는 전체 너비 사용
             st.subheader("🥗 식단 구성")
             st.markdown(
                 f"""
                 - 🍚 **주식**: {meal['grain']}
                 - 🍗 **단백질**: {meal['protein']}
                 - 🥦 **채소**: {meal['vegetable']}
-                - �� **간식/음료**: {meal['extra']}
+                - 🍇 **간식/음료**: {meal['extra']}
                 """
             )
 
             with st.spinner("AI가 식단을 분석 중입니다..."):
                 result = analyze_meal(meal)
 
-            # 1. 기본 분석 결과
+            # 나머지 내용은 기존 그대로 유지
             st.subheader("🧠 분석 결과")
             col1, col2 = st.columns(2)
             with col1:
