@@ -13,7 +13,7 @@ st.markdown(
     """
 <div style='text-align: center'>
     <h1>🍱 저속노화를 위한 젊어지는 밥상</h1>
-    <h1>-젊밥-</h1>
+    <h1>- 젊밥 -</h1>
 </div>
 """,
     unsafe_allow_html=True,
@@ -137,99 +137,210 @@ def analyze_meal(meal):
 
 
 ##############
-
-
-# 👉 식단 추천
-if st.button("🔁 오늘의 식단 추천받기"):
-    meal = get_random_meal()
-
-    st.subheader("🥗 식단 구성")
-    st.markdown(
-        f"""
-    - 🍚 **주식**: {meal['grain']}
-    - 🍗 **단백질**: {meal['protein']}
-    - 🥦 **채소**: {meal['vegetable']}
-    - 🍇 **간식/음료**: {meal['extra']}
+# CSS 스타일 추가 (페이지 상단에 추가)
+st.markdown(
     """
+    <style>
+    div.stButton > button {
+        width: 100%;
+        height: 4em;
+        font-size: 2em;
+        margin: 0 auto;
+        display: block;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 10px;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    div.stButton > button:hover {
+        background-color: #45a049;
+        transform: scale(1.02);
+    }
+    </style>
+""",
+    unsafe_allow_html=True,
+)
+
+# 세션 상태 초기화
+if "last_meal_time" not in st.session_state:
+    st.session_state.last_meal_time = None
+if "question_count" not in st.session_state:
+    st.session_state.question_count = 0
+
+# 버튼을 컨테이너로 감싸서 중앙 정렬
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    if st.button("🔁 오늘의 식단 추천받기", use_container_width=True):
+        current_time = datetime.now()
+
+        # 첫 클릭이거나 5분이 지났는지 확인
+        if st.session_state.last_meal_time is None or (
+            current_time - st.session_state.last_meal_time
+        ) > timedelta(minutes=5):
+            st.session_state.last_meal_time = current_time
+            meal = get_random_meal()
+
+            st.subheader("🥗 식단 구성")
+            st.markdown(
+                f"""
+                - 🍚 **주식**: {meal['grain']}
+                - 🍗 **단백질**: {meal['protein']}
+                - 🥦 **채소**: {meal['vegetable']}
+                - �� **간식/음료**: {meal['extra']}
+                """
+            )
+
+            with st.spinner("AI가 식단을 분석 중입니다..."):
+                result = analyze_meal(meal)
+
+            # 1. 기본 분석 결과
+            st.subheader("🧠 분석 결과")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
+            with col2:
+                st.metric("💯 항노화 점수", f"{result['score']}점")
+
+            # 2. 게이지 분석
+            st.markdown("### 📊 건강 지표")
+
+            def draw_gauge(label, value):
+                st.progress(
+                    value / 5, text=f"{label}: {'●' * value + '○' * (5 - value)}"
+                )
+
+            draw_gauge("항산화", result["gauge"]["antioxidant"])
+            draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
+            draw_gauge("염분", result["gauge"]["salt"])
+
+            # 3. 영양소 정보
+            st.markdown("### 🥗 영양소 분석")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("칼로리", f"{result['nutrition']['calories']}kcal")
+            with col2:
+                st.metric("단백질", f"{result['nutrition']['protein']}g")
+            with col3:
+                st.metric("식이섬유", f"{result['nutrition']['fiber']}g")
+
+            # 4. 비타민과 미네랄
+            st.markdown("#### 💊 주요 영양소")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("**비타민**")
+                for vitamin in result["nutrition"]["vitamins"]:
+                    st.markdown(f"- {vitamin}")
+            with col2:
+                st.markdown("**미네랄**")
+                for mineral in result["nutrition"]["minerals"]:
+                    st.markdown(f"- {mineral}")
+
+            # 5. 건강상 이점
+            st.markdown("### ✨ 건강상 이점")
+            for benefit in result["benefits"]:
+                st.markdown(f"- {benefit}")
+
+            # 6. 대체 추천
+            if result.get("alternatives"):
+                st.markdown("### 🔄 대체 추천")
+                for alt in result["alternatives"]:
+                    st.info(f"**{alt['item']}**: {alt['reason']}")
+
+            # 7. 종합 분석
+            st.markdown("### 💡 종합 분석")
+            st.success(result["reply"])
+
+        else:
+            # 5분이 지나지 않았다면
+            remaining_time = timedelta(minutes=5) - (
+                current_time - st.session_state.last_meal_time
+            )
+            st.warning(
+                f"잠시만요! 다음 식단 추천까지 {int(remaining_time.total_seconds() / 60)}분 {int(remaining_time.total_seconds() % 60)}초 남았습니다."
+            )
+
+# 현재 상태 표시 (선택사항)
+if st.session_state.last_meal_time:
+    st.sidebar.write(
+        "마지막 식단 추천 시간:", st.session_state.last_meal_time.strftime("%H:%M:%S")
     )
 
-    # with st.spinner("AI가 식단을 분석 중입니다..."):
-    #     result = analyze_meal(meal)
+# ---------------------------------------#
+# # 👉 식단 추천
+# if st.button("🔁 오늘의 식단 추천받기"):
+#     meal = get_random_meal()
 
-    # st.subheader("🧠 분석 결과")
-    # st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
-    # st.metric("💯 항노화 점수", f"{result['score']}점")
+#     st.subheader("🥗 식단 구성")
+#     st.markdown(
+#         f"""
+#     - 🍚 **주식**: {meal['grain']}
+#     - 🍗 **단백질**: {meal['protein']}
+#     - 🥦 **채소**: {meal['vegetable']}
+#     - 🍇 **간식/음료**: {meal['extra']}
+#     """
+#     )
 
-    # st.markdown("**게이지 분석:**")
+#     # st.success(result["reply"])
+#     with st.spinner("AI가 식단을 분석 중입니다..."):
+#         result = analyze_meal(meal)
 
-    # def draw_gauge(label, value):
-    #     bar = "●" * value + "○" * (5 - value)
-    #     st.write(f"{label}: {bar}")
+#     # 1. 기본 분석 결과
+#     st.subheader("🧠 분석 결과")
+#     col1, col2 = st.columns(2)
+#     with col1:
+#         st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
+#     with col2:
+#         st.metric("💯 항노화 점수", f"{result['score']}점")
 
-    # draw_gauge("항산화", result["gauge"]["antioxidant"])
-    # draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
-    # draw_gauge("염분", result["gauge"]["salt"])
+#     # 2. 게이지 분석 (시각적 개선)
+#     st.markdown("### 📊 건강 지표")
 
-    # st.success(result["reply"])
-    with st.spinner("AI가 식단을 분석 중입니다..."):
-        result = analyze_meal(meal)
+#     def draw_gauge(label, value):
+#         # 프로그레스 바로 변경
+#         st.progress(value / 5, text=f"{label}: {'●' * value + '○' * (5 - value)}")
 
-    # 1. 기본 분석 결과
-    st.subheader("🧠 분석 결과")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
-    with col2:
-        st.metric("💯 항노화 점수", f"{result['score']}점")
+#     draw_gauge("항산화", result["gauge"]["antioxidant"])
+#     draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
+#     draw_gauge("염분", result["gauge"]["salt"])
 
-    # 2. 게이지 분석 (시각적 개선)
-    st.markdown("### 📊 건강 지표")
+#     # 3. 영양소 정보
+#     st.markdown("### 🥗 영양소 분석")
+#     col1, col2, col3 = st.columns(3)
+#     with col1:
+#         st.metric("칼로리", f"{result['nutrition']['calories']}kcal")
+#     with col2:
+#         st.metric("단백질", f"{result['nutrition']['protein']}g")
+#     with col3:
+#         st.metric("식이섬유", f"{result['nutrition']['fiber']}g")
 
-    def draw_gauge(label, value):
-        # 프로그레스 바로 변경
-        st.progress(value / 5, text=f"{label}: {'●' * value + '○' * (5 - value)}")
+#     # 4. 비타민과 미네랄
+#     st.markdown("#### 💊 주요 영양소")
+#     col1, col2 = st.columns(2)
+#     with col1:
+#         st.markdown("**비타민**")
+#         for vitamin in result["nutrition"]["vitamins"]:
+#             st.markdown(f"- {vitamin}")
+#     with col2:
+#         st.markdown("**미네랄**")
+#         for mineral in result["nutrition"]["minerals"]:
+#             st.markdown(f"- {mineral}")
 
-    draw_gauge("항산화", result["gauge"]["antioxidant"])
-    draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
-    draw_gauge("염분", result["gauge"]["salt"])
+#     # 5. 건강상 이점
+#     st.markdown("### ✨ 건강상 이점")
+#     for benefit in result["benefits"]:
+#         st.markdown(f"- {benefit}")
 
-    # 3. 영양소 정보
-    st.markdown("### 🥗 영양소 분석")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("칼로리", f"{result['nutrition']['calories']}kcal")
-    with col2:
-        st.metric("단백질", f"{result['nutrition']['protein']}g")
-    with col3:
-        st.metric("식이섬유", f"{result['nutrition']['fiber']}g")
+#     # 6. 대체 추천
+#     if result.get("alternatives"):
+#         st.markdown("### 🔄 대체 추천")
+#         for alt in result["alternatives"]:
+#             st.info(f"**{alt['item']}**: {alt['reason']}")
 
-    # 4. 비타민과 미네랄
-    st.markdown("#### 💊 주요 영양소")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**비타민**")
-        for vitamin in result["nutrition"]["vitamins"]:
-            st.markdown(f"- {vitamin}")
-    with col2:
-        st.markdown("**미네랄**")
-        for mineral in result["nutrition"]["minerals"]:
-            st.markdown(f"- {mineral}")
-
-    # 5. 건강상 이점
-    st.markdown("### ✨ 건강상 이점")
-    for benefit in result["benefits"]:
-        st.markdown(f"- {benefit}")
-
-    # 6. 대체 추천
-    if result.get("alternatives"):
-        st.markdown("### 🔄 대체 추천")
-        for alt in result["alternatives"]:
-            st.info(f"**{alt['item']}**: {alt['reason']}")
-
-    # 7. 종합 분석
-    st.markdown("### 💡 종합 분석")
-    st.success(result["reply"])
-
+#     # 7. 종합 분석
+#     st.markdown("### 💡 종합 분석")
+#     st.success(result["reply"])
+# ---------------------------------------#
 # # 세션 상태 초기화 (이 부분이 중요!)
 # if "last_meal_time" not in st.session_state:
 #     st.session_state.last_meal_time = None
