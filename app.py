@@ -12,8 +12,8 @@ st.set_page_config(page_title="젊밥 🍱", layout="centered")
 st.markdown(
     """
 <div style='text-align: center'>
-    <h1>🍱 저속노화를 위한 젊어지는 밥상 - 젊밥</h1>
-    
+    <h1>🍱 저속노화를 위한 젊어지는 밥상</h1>
+    <h2>- 젊밥</h2>
 </div>
 """,
     unsafe_allow_html=True,
