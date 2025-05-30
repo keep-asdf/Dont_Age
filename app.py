@@ -174,10 +174,10 @@ with col2:
     if st.button("🔁 오늘의 식단 추천받기", use_container_width=True):
         current_time = datetime.now()
 
-        # 첫 클릭이거나 5분이 지났는지 확인
+        # 첫 클릭이거나 10초이 지났는지 확인
         if st.session_state.last_meal_time is None or (
             current_time - st.session_state.last_meal_time
-        ) > timedelta(minutes=5):
+        ) > timedelta(seconds=10):
             st.session_state.last_meal_time = current_time
             meal = get_random_meal()
 
