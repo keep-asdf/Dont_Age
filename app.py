@@ -170,19 +170,18 @@ if "question_count" not in st.session_state:
     st.session_state.question_count = 0
 
 # 버튼을 컨테이너로 감싸서 중앙 정렬
+# 버튼만 중앙에 배치
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     if st.button("🔁 오늘의 식단 추천받기", use_container_width=True):
         current_time = datetime.now()
 
-        # 첫 클릭이거나 10초이 지났는지 확인
         if st.session_state.last_meal_time is None or (
             current_time - st.session_state.last_meal_time
         ) > timedelta(seconds=10):
             st.session_state.last_meal_time = current_time
             meal = get_random_meal()
 
-            # 여기서부터는 전체 너비 사용
             st.subheader("🥗 식단 구성")
             st.markdown(
                 f"""
@@ -196,7 +195,6 @@ with col2:
             with st.spinner("AI가 식단을 분석 중입니다..."):
                 result = analyze_meal(meal)
 
-            # 나머지 내용은 기존 그대로 유지
             st.subheader("🧠 분석 결과")
             col1, col2 = st.columns(2)
             with col1:
@@ -204,7 +202,6 @@ with col2:
             with col2:
                 st.metric("💯 항노화 점수", f"{result['score']}점")
 
-            # 2. 게이지 분석
             st.markdown("### 📊 건강 지표")
 
             def draw_gauge(label, value):
@@ -216,7 +213,6 @@ with col2:
             draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
             draw_gauge("염분", result["gauge"]["salt"])
 
-            # 3. 영양소 정보
             st.markdown("### 🥗 영양소 분석")
             col1, col2, col3 = st.columns(3)
             with col1:
@@ -226,7 +222,6 @@ with col2:
             with col3:
                 st.metric("식이섬유", f"{result['nutrition']['fiber']}g")
 
-            # 4. 비타민과 미네랄
             st.markdown("#### 💊 주요 영양소")
             col1, col2 = st.columns(2)
             with col1:
@@ -238,23 +233,19 @@ with col2:
                 for mineral in result["nutrition"]["minerals"]:
                     st.markdown(f"- {mineral}")
 
-            # 5. 건강상 이점
             st.markdown("### ✨ 건강상 이점")
             for benefit in result["benefits"]:
                 st.markdown(f"- {benefit}")
 
-            # 6. 대체 추천
             if result.get("alternatives"):
                 st.markdown("### 🔄 대체 추천")
                 for alt in result["alternatives"]:
                     st.info(f"**{alt['item']}**: {alt['reason']}")
 
-            # 7. 종합 분석
             st.markdown("### 💡 종합 분석")
             st.success(result["reply"])
 
         else:
-            # 5분이 지나지 않았다면
             remaining_time = timedelta(minutes=5) - (
                 current_time - st.session_state.last_meal_time
             )
@@ -262,12 +253,11 @@ with col2:
                 f"잠시만요! 다음 식단 추천까지 {int(remaining_time.total_seconds() / 60)}분 {int(remaining_time.total_seconds() % 60)}초 남았습니다."
             )
 
-# 현재 상태 표시 (선택사항)
+# 현재 상태 표시
 if st.session_state.last_meal_time:
     st.sidebar.write(
         "마지막 식단 추천 시간:", st.session_state.last_meal_time.strftime("%H:%M:%S")
     )
-
 # ---------------------------------------#
 # # 👉 식단 추천
 # if st.button("🔁 오늘의 식단 추천받기"):
