@@ -171,7 +171,7 @@ if "question_count" not in st.session_state:
 
 # 버튼을 컨테이너로 감싸서 중앙 정렬
 # 버튼만 중앙에 배치
-col1, col2, col3 = st.columns([1, 4, 1])
+col1, col2, col3 = st.columns([1, 6, 1])
 with col2:
     if st.button("🔁 오늘의 식단 추천받기", use_container_width=True):
         current_time = datetime.now()
