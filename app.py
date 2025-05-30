@@ -6,7 +6,7 @@ import json
 import os
 
 # 🔑 OpenAI API 키 설정
-openai.api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+# openai.api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
 
 # 🥗 식단 후보 데이터
 grains = ["퀴노아", "현미밥", "귀리죽"]
