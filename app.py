@@ -143,7 +143,7 @@ st.markdown(
     <style>
     div.stButton > button {
         width: 100%;
-        height: 4em;
+        height: 100px;
         font-size: 5em;
         margin: 0 auto;
         display: block;
