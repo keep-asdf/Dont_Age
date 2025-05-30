@@ -1,12 +1,10 @@
 import streamlit as st
 import random
-
-# import openai
 import json
-import os
+import google.generativeai as genai
 
-# 🔑 OpenAI API 키 설정
-# openai.api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+# 🔑 Gemini API 키 설정
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # 🥗 식단 후보 데이터
 grains = ["퀴노아", "현미밥", "귀리죽"]
@@ -15,7 +13,6 @@ vegetables = ["브로콜리", "채소볶음", "시금치나물"]
 extras = ["블루베리", "녹차", "아보카도", "무가당 요거트"]
 
 
-# 🔀 식단 생성 함수
 def get_random_meal():
     return {
         "grain": random.choice(grains),
@@ -25,7 +22,7 @@ def get_random_meal():
     }
 
 
-# 🤖 GPT 분석 함수
+# 🤖 Gemini 분석 함수
 def analyze_meal(meal):
     prompt = f"""
     다음은 저속노화를 위한 식단입니다:
@@ -50,27 +47,29 @@ def analyze_meal(meal):
 
     출력은 JSON 형식 문자열만 주시고, 다른 문장은 포함하지 마세요.
     """
+
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-        )
-        raw = response["choices"][0]["message"]["content"]
+        model = genai.GenerativeModel("gemini-pro")
+        response = model.generate_content(prompt)
+        raw = response.text.strip()
+
+        # 예외적으로 "```json\n{...}```"로 감싸는 경우도 있어서 처리
+        if raw.startswith("```json"):
+            raw = raw.replace("```json", "").replace("```", "").strip()
+
         return json.loads(raw)
     except Exception as e:
         return {
-            "reply": "GPT 분석 실패: " + str(e),
+            "reply": "Gemini 분석 실패: " + str(e),
             "timeSlowed": "+0.0h",
             "score": 0,
             "gauge": {"antioxidant": 0, "bloodSugar": 0, "salt": 0},
         }
 
 
-# 🌐 Streamlit UI
+# 🌐 Streamlit UI 구성
 st.set_page_config(page_title="젊밥 🍱", layout="centered")
 st.title("🍱 젊어지는 밥상 - 젊밥")
-st.caption("늙음을 막는 한 끼 식단, GPT가 분석해드립니다.")
 
 # 👉 식단 추천
 if st.button("🔁 오늘의 식단 추천받기"):
@@ -86,39 +85,40 @@ if st.button("🔁 오늘의 식단 추천받기"):
     """
     )
 
-    # with st.spinner("GPT가 식단을 분석 중입니다..."):
-    #     result = analyze_meal(meal)
+    with st.spinner("Gemini가 식단을 분석 중입니다..."):
+        result = analyze_meal(meal)
 
-    # st.subheader("🧠 GPT 분석 결과")
-    # st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
-    # st.metric("💯 항노화 점수", f"{result['score']}점")
+    st.subheader("🧠 분석 결과")
+    st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
+    st.metric("💯 항노화 점수", f"{result['score']}점")
 
-    # st.markdown("**게이지 분석:**")
+    st.markdown("**게이지 분석:**")
 
-    # def draw_gauge(label, value):
-    #     bar = "●" * value + "○" * (5 - value)
-    #     st.write(f"{label}: {bar}")
+    def draw_gauge(label, value):
+        bar = "●" * value + "○" * (5 - value)
+        st.write(f"{label}: {bar}")
 
-    # draw_gauge("항산화", result["gauge"]["antioxidant"])
-    # draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
-    # draw_gauge("염분", result["gauge"]["salt"])
+    draw_gauge("항산화", result["gauge"]["antioxidant"])
+    draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
+    draw_gauge("염분", result["gauge"]["salt"])
 
-    # st.success(result["reply"])
+    st.success(result["reply"])
 
-# # 🗣️ 챗봇 영역
-# st.divider()
-# st.subheader("🤖 GPT에게 궁금한 걸 물어보세요")
-# user_input = st.text_input("예: 블루베리가 왜 좋아요?")
-# if user_input:
-#     with st.spinner("GPT 응답 생성 중..."):
-#         chat = openai.ChatCompletion.create(
-#             model="gpt-3.5-turbo",
-#             messages=[
-#                 {
-#                     "role": "system",
-#                     "content": "넌 저속노화 식단 코치야. 짧고 친절하게 대답해.",
-#                 },
-#                 {"role": "user", "content": user_input},
-#             ],
-#         )
-#         st.chat_message("assistant").write(chat["choices"][0]["message"]["content"])
+# 🗣️ 챗봇 영역
+st.divider()
+st.subheader("🤖 Gemini에게 궁금한 걸 물어보세요")
+user_input = st.text_input("예: 블루베리가 왜 좋아요?")
+if user_input:
+    with st.spinner("Gemini 응답 생성 중..."):
+        model = genai.GenerativeModel("gemini-pro")
+        res = model.generate_content(
+            [
+                {
+                    "role": "user",
+                    "parts": [
+                        f"넌 저속노화 식단 코치야. 짧고 친절하게 대답해.\n질문: {user_input}"
+                    ],
+                }
+            ]
+        )
+        st.chat_message("assistant").write(res.text)
