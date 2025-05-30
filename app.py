@@ -86,24 +86,24 @@ if st.button("🔁 오늘의 식단 추천받기"):
     """
     )
 
-    with st.spinner("GPT가 식단을 분석 중입니다..."):
-        result = analyze_meal(meal)
+    # with st.spinner("GPT가 식단을 분석 중입니다..."):
+    #     result = analyze_meal(meal)
 
-    st.subheader("🧠 GPT 분석 결과")
-    st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
-    st.metric("💯 항노화 점수", f"{result['score']}점")
+    # st.subheader("🧠 GPT 분석 결과")
+    # st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
+    # st.metric("💯 항노화 점수", f"{result['score']}점")
 
-    st.markdown("**게이지 분석:**")
+    # st.markdown("**게이지 분석:**")
 
-    def draw_gauge(label, value):
-        bar = "●" * value + "○" * (5 - value)
-        st.write(f"{label}: {bar}")
+    # def draw_gauge(label, value):
+    #     bar = "●" * value + "○" * (5 - value)
+    #     st.write(f"{label}: {bar}")
 
-    draw_gauge("항산화", result["gauge"]["antioxidant"])
-    draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
-    draw_gauge("염분", result["gauge"]["salt"])
+    # draw_gauge("항산화", result["gauge"]["antioxidant"])
+    # draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
+    # draw_gauge("염분", result["gauge"]["salt"])
 
-    st.success(result["reply"])
+    # st.success(result["reply"])
 
 # # 🗣️ 챗봇 영역
 # st.divider()
