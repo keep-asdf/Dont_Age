@@ -191,10 +191,10 @@ with col2:
             st.markdown(
                 f"""
                 <div style='font-size: 1.5em; line-height: 2em;'>
-                    - 🍚 <strong>주식</strong>: {meal['grain']}
-                    - 🍗 <strong>단백질</strong>: {meal['protein']}
-                    - 🥦 <strong>채소</strong>: {meal['vegetable']}
-                    - 🍇 <strong>간식/음료</strong>: {meal['extra']}
+                    <p style='margin-bottom: 1em;'>- 🍚 <strong>주식</strong>: {meal['grain']}</p>
+                    <p style='margin-bottom: 1em;'>- 🍗 <strong>단백질</strong>: {meal['protein']}</p>
+                    <p style='margin-bottom: 1em;'>- 🥦 <strong>채소</strong>: {meal['vegetable']}</p>
+                    <p style='margin-bottom: 1em;'>- 🍇 <strong>간식/음료</strong>: {meal['extra']}</p>
                 </div>
                 """,
                 unsafe_allow_html=True,
