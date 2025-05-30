@@ -216,11 +216,11 @@ with col2:
             st.markdown("### 🥗 영양소 분석")
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.metric("칼로리", f"{result['nutrition']['calories']}kcal")
+                st.metric("칼로리", f"{result['nutrition']['calories']}")
             with col2:
-                st.metric("단백질", f"{result['nutrition']['protein']}g")
+                st.metric("단백질", f"{result['nutrition']['protein']}")
             with col3:
-                st.metric("식이섬유", f"{result['nutrition']['fiber']}g")
+                st.metric("식이섬유", f"{result['nutrition']['fiber']}")
 
             st.markdown("#### 💊 주요 영양소")
             col1, col2 = st.columns(2)
