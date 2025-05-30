@@ -178,23 +178,14 @@ if "current_meal" not in st.session_state:
 col1, col2, col3 = st.columns([1, 6, 1])
 with col2:
     if st.button("🔁 오늘의 식단 추천받기", use_container_width=True):
+
         current_time = datetime.now()
 
         if st.session_state.last_meal_time is None or (
             current_time - st.session_state.last_meal_time
         ) > timedelta(seconds=10):
             st.session_state.last_meal_time = current_time
-            st.session_state.image_generated = False  # 이미지 생성 상태 초기화
             meal = get_random_meal()
-            st.session_state.current_meal = meal  # 현재 식단 저장
-
-            # current_time = datetime.now()
-
-            # if st.session_state.last_meal_time is None or (
-            #     current_time - st.session_state.last_meal_time
-            # ) > timedelta(seconds=10):
-            #     st.session_state.last_meal_time = current_time
-            #     meal = get_random_meal()
 
             st.subheader("🥗 식단 구성")
             st.markdown(
