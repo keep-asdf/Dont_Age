@@ -9,12 +9,15 @@ import os
 # 🌐 Streamlit UI 구성
 st.set_page_config(page_title="젊밥 🍱", layout="centered")
 # st.title("🍱 저속노화를 위한 젊어지는 밥상 - 젊밥")
-st.markdown("""
+st.markdown(
+    """
 <div style='text-align: center'>
-    <h1>🍱 저속노화를 위한</h1>
-    <h1>젊어지는 밥상 - 젊밥</h1>
+    <h1>🍱 저속노화를 위한 젊어지는 밥상 - 젊밥</h1>
+    
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 ##############
 ## 기본 셋팅 ##
