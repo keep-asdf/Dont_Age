@@ -208,13 +208,22 @@ with col2:
             st.markdown(
                 """
                 <div style='font-size: 2em; text-align: center; margin: 2em 0;'>
-                    <strong>🤖 AI</strong>가 식단을 분석 중입니다...
+                    <strong>🤖 젊밥 AI</strong>가 식단을 분석 중입니다. 🤖
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
             with st.spinner(""):
                 result = analyze_meal(meal)
+
+            st.markdown(
+                """
+                <div style='font-size: 2em; text-align: center; margin: 2em 0; color: #4CAF50;'>
+                    <strong>🤖 젊밥 AI</strong>가 식단 분석을 완료했습니다! 🤖
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
             st.subheader("🧠 분석 결과")
             col1, col2 = st.columns(2)
