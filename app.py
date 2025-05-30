@@ -179,7 +179,7 @@ if "current_meal" not in st.session_state:
 # 버튼만 중앙에 배치
 col1, col2, col3 = st.columns([1, 6, 1])
 with col2:
-    if st.button("🔁 오늘의 식단 추천받기", use_container_width=True):
+    if st.button("🔁 오늘의 젊어지는 식단 추천받기", use_container_width=True):
 
         current_time = datetime.now()
 
