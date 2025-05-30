@@ -8,7 +8,7 @@ import os
 
 # 🌐 Streamlit UI 구성
 st.set_page_config(page_title="젊밥 🍱", layout="centered")
-st.title("🍱 젊어지는 밥상 - 젊밥")
+st.title("🍱 저속노화를 위한 젊어지는 밥상 - 젊밥")
 
 
 ##############
@@ -20,15 +20,11 @@ st.title("🍱 젊어지는 밥상 - 젊밥")
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 
-
-
 # 🥗 식단 후보 데이터
 grains = ["퀴노아", "현미밥", "귀리죽"]
 proteins = ["연어구이", "두부조림", "닭가슴살"]
 vegetables = ["브로콜리", "채소볶음", "시금치나물"]
 extras = ["블루베리", "녹차", "아보카도", "무가당 요거트"]
-
-
 
 
 def get_random_meal():
@@ -123,9 +119,9 @@ def analyze_meal(meal):
 
 
 # 세션 상태 초기화 (이 부분이 중요!)
-if 'last_meal_time' not in st.session_state:
+if "last_meal_time" not in st.session_state:
     st.session_state.last_meal_time = None
-if 'question_count' not in st.session_state:
+if "question_count" not in st.session_state:
     st.session_state.question_count = 0
 
 # 버튼 클릭 처리
