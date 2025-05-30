@@ -187,6 +187,10 @@ with col2:
             st.session_state.last_meal_time = current_time
             meal = get_random_meal()
 
+            """
+            <div style='font-size: 1.5em; line-height: 2em;'>
+            """
+
             st.markdown(
                 """
                 <h2 style='font-size: 2.5em; text-align: left; margin-bottom: 1em;'>🥗 식단 구성</h2>
