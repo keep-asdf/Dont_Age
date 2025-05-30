@@ -20,8 +20,12 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
-st.image("logo.png", width=200)  # width 값은 로고 크기에 따라 조절 가능합니다
 
+# 로고 이미지 중앙 정렬
+col1, col2, col3 = st.columns([1,3,1])
+with col2:
+    st.image("logo.png", width=200)  
+    
 ##############
 ## 기본 셋팅 ##
 ##############
