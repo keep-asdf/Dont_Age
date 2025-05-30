@@ -73,75 +73,6 @@ def analyze_meal(meal):
 
 ##############
 
-# CSS로 네비게이션 바 스타일링
-st.markdown(
-    """
-<style>
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background-color: #262730;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
-}
-
-.navbar-brand {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.navbar-menu {
-    display: flex;
-    gap: 20px;
-    margin-left: auto;
-}
-
-.navbar-item {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.navbar-item:hover {
-    background-color: #404040;
-}
-
-/* 메인 컨텐츠가 네비게이션 바 아래에 오도록 패딩 추가 */
-.main {
-    padding-top: 80px;
-}
-</style>
-""",
-    unsafe_allow_html=True,
-)
-
-# 네비게이션 바 HTML
-st.markdown(
-    """
-<div class="navbar">
-    <a href="#" class="navbar-brand">🍱 늙지마켓</a>
-    <div class="navbar-menu">
-        <a href="#" class="navbar-item">홈</a>
-        <a href="#" class="navbar-item">식단 추천</a>
-        <a href="#" class="navbar-item">식단 분석</a>
-        <a href="#" class="navbar-item">설정</a>
-    </div>
-</div>
-""",
-    unsafe_allow_html=True,
-)
-
-# 메인 컨텐츠를 감싸는 div
-st.markdown('<div class="main">', unsafe_allow_html=True)
-
 
 # 🌐 Streamlit UI 구성
 st.set_page_config(page_title="젊밥 🍱", layout="centered")
@@ -199,7 +130,3 @@ if user_input:
             ]
         )
         st.chat_message("assistant").write(res.text)
-
-
-# 메인 컨텐츠 div 닫기
-st.markdown("</div>", unsafe_allow_html=True)
