@@ -77,40 +77,88 @@ def analyze_meal(meal):
         }
 
 
+
 ##############
 
 
-# 👉 식단 추천
+# # 👉 식단 추천
+# if st.button("🔁 오늘의 식단 추천받기"):
+#     meal = get_random_meal()
+
+#     st.subheader("🥗 식단 구성")
+#     st.markdown(
+#         f"""
+#     - 🍚 **주식**: {meal['grain']}  
+#     - 🍗 **단백질**: {meal['protein']}  
+#     - 🥦 **채소**: {meal['vegetable']}  
+#     - 🍇 **간식/음료**: {meal['extra']}
+#     """
+#     )
+
+#     with st.spinner("Gemini가 식단을 분석 중입니다..."):
+#         result = analyze_meal(meal)
+
+#     st.subheader("🧠 분석 결과")
+#     st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
+#     st.metric("💯 항노화 점수", f"{result['score']}점")
+
+#     st.markdown("**게이지 분석:**")
+
+#     def draw_gauge(label, value):
+#         bar = "●" * value + "○" * (5 - value)
+#         st.write(f"{label}: {bar}")
+
+#     draw_gauge("항산화", result["gauge"]["antioxidant"])
+#     draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
+#     draw_gauge("염분", result["gauge"]["salt"])
+
+#     st.success(result["reply"])
+
+# 버튼 클릭 처리
 if st.button("🔁 오늘의 식단 추천받기"):
-    meal = get_random_meal()
+    current_time = datetime.now()
+    
+    # 첫 클릭이거나 5분이 지났는지 확인
+    if st.session_state.last_meal_time is None or \
+        (current_time - st.session_state.last_meal_time) > timedelta(minutes=5):
+        # 식단 생성 및 표시
+        st.session_state.last_meal_time = current_time
+        meal = get_random_meal()
+        
+        st.subheader("🥗 식단 구성")
+        st.markdown(
+            f"""
+        - 🍚 **주식**: {meal['grain']}  
+        - 🍗 **단백질**: {meal['protein']}  
+        - 🥦 **채소**: {meal['vegetable']}  
+        - 🍇 **간식/음료**: {meal['extra']}
+        """
+        )
+        
+        # Gemini 분석 결과 표시
+        with st.spinner("AI가 식단을 분석 중입니다..."):
+            result = analyze_meal(meal)
+            
+        st.subheader("🧠 AI 분석 결과")
+        st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
+        st.metric("💯 항노화 점수", f"{result['score']}점")
+        
+        st.markdown("**게이지 분석:**")
+        def draw_gauge(label, value):
+            bar = "●" * value + "○" * (5 - value)
+            st.write(f"{label}: {bar}")
+            
+        draw_gauge("항산화", result["gauge"]["antioxidant"])
+        draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
+        draw_gauge("염분", result["gauge"]["salt"])
+        
+        st.success(result["reply"])
+        
+    else:
+        # 5분이 지나지 않았다면
+        remaining_time = timedelta(minutes=5) - (current_time - st.session_state.last_meal_time)
+        st.warning(f"잠시만요! 다음 식단 추천까지 {int(remaining_time.total_seconds() / 60)}분 {int(remaining_time.total_seconds() % 60)}초 남았습니다.")
 
-    st.subheader("🥗 식단 구성")
-    st.markdown(
-        f"""
-    - 🍚 **주식**: {meal['grain']}  
-    - 🍗 **단백질**: {meal['protein']}  
-    - 🥦 **채소**: {meal['vegetable']}  
-    - 🍇 **간식/음료**: {meal['extra']}
-    """
-    )
-
-    with st.spinner("Gemini가 식단을 분석 중입니다..."):
-        result = analyze_meal(meal)
-
-    st.subheader("🧠 분석 결과")
-    st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
-    st.metric("💯 항노화 점수", f"{result['score']}점")
-
-    st.markdown("**게이지 분석:**")
-
-    def draw_gauge(label, value):
-        bar = "●" * value + "○" * (5 - value)
-        st.write(f"{label}: {bar}")
-
-    draw_gauge("항산화", result["gauge"]["antioxidant"])
-    draw_gauge("혈당 부하", result["gauge"]["bloodSugar"])
-    draw_gauge("염분", result["gauge"]["salt"])
-
-    st.success(result["reply"])
-
-
+# 현재 상태 표시 (선택사항)
+if st.session_state.last_meal_time:
+    st.sidebar.write("마지막 식단 추천 시간:", st.session_state.last_meal_time.strftime("%H:%M:%S"))
