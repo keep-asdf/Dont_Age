@@ -266,23 +266,23 @@ with col2:
             """,
                 unsafe_allow_html=True,
             )
+            
             # 세션 상태에 이미지 생성 상태 추가
             if "image_generated" not in st.session_state:
                 st.session_state.image_generated = False
-            # 기존 코드의 마지막 부분 (st.success(result["reply"]) 다음에 추가)
-            st.markdown("### 💡 종합 분석")
-            st.success(result["reply"])
 
-            # 이미지 공유 버튼 추가
+            # 이미지 공유 버튼 추가 부분을 다음과 같이 수정
             st.markdown("### 📸 식단 공유하기")
             col1, col2, col3 = st.columns([1, 2, 1])
             with col2:
                 if st.button("📸 식단 이미지 공유하기", use_container_width=True):
-                    # 이미지 생성 및 저장 로직
+                    st.session_state.image_generated = True
+                
+                if st.session_state.image_generated:
                     st.info("이미지 생성 중...")
                     # TODO: 이미지 생성 및 저장 로직 구현
                     st.success("이미지가 생성되었습니다!")
-
+                    
                     # 공유 버튼들
                     st.markdown(
                         """
