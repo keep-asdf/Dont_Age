@@ -49,7 +49,7 @@ def analyze_meal(meal):
     """
 
     try:
-        model = genai.GenerativeModel("gemini-2.5-flash")
+        model = genai.GenerativeModel("gemini-2.0-flash")
         response = model.generate_content(prompt)
         raw = response.text.strip()
 
@@ -110,7 +110,7 @@ st.subheader("🤖 Gemini에게 궁금한 걸 물어보세요")
 user_input = st.text_input("예: 블루베리가 왜 좋아요?")
 if user_input:
     with st.spinner("Gemini 응답 생성 중..."):
-        model = genai.GenerativeModel("gemini-2.5-flash")
+        model = genai.GenerativeModel("gemini-2.0-flash")
         res = model.generate_content(
             [
                 {
