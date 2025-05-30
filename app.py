@@ -208,7 +208,7 @@ with col2:
             st.markdown(
                 """
                 <div style='font-size: 2em; text-align: center; margin: 2em 0;'>
-                    <strong>🤖 젊밥 AI</strong>가 식단을 분석 중입니다. 🤖
+                    <strong>🤖 젊밥 AI</strong>가 식단을 분석 중입니다 
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -218,14 +218,10 @@ with col2:
 
             st.markdown(
                 """
-                <div style='font-size: 2em; text-align: center; margin: 2em 0; color: #4CAF50;'>
-                    <strong>🤖 젊밥 AI</strong>가 식단 분석을 완료했습니다! 🤖
-                </div>
+                <h2 style='font-size: 2.5em; text-align: left; margin: 1em 0;'>🧠 분석 결과</h2>
                 """,
                 unsafe_allow_html=True,
             )
-
-            st.subheader("🧠 분석 결과")
             col1, col2 = st.columns(2)
             with col1:
                 st.metric("⏳ 노화 지연 시간", result["timeSlowed"])
