@@ -49,7 +49,7 @@ def analyze_meal(meal):
     """
 
     try:
-        model = genai.GenerativeModel("gemini-pro")
+        model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(prompt)
         raw = response.text.strip()
 
