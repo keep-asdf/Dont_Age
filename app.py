@@ -8,8 +8,18 @@ import os
 
 # 🌐 Streamlit UI 구성
 st.set_page_config(page_title="젊밥 🍱", layout="centered")
-# st.title("🍱 저속노화를 위한 젊어지는 밥상 - 젊밥")
 
+st.markdown(
+    """
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+    html, body, [class*="css"]  {
+        font-family: 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', Arial, sans-serif !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 st.markdown(
     """
