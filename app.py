@@ -187,10 +187,6 @@ with col2:
             st.session_state.last_meal_time = current_time
             meal = get_random_meal()
 
-            """
-            <div style='font-size: 1.5em; line-height: 2em;'>
-            """
-
             st.markdown(
                 """
                 <h2 style='font-size: 2.5em; text-align: left; margin-bottom: 1em;'>🥗 식단 구성</h2>
@@ -211,7 +207,7 @@ with col2:
 
             st.markdown(
                 """
-                <div style='font-size: 2em; text-align: center; margin: 2em 0;'>
+                <div style='font-size: 2em; text-align: center; margin: 1em 0;'>
                     <strong>🤖 젊밥 AI</strong>가 식단을 분석 중입니다 
                 </div>
                 """,
