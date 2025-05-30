@@ -16,7 +16,64 @@ st.markdown(
     html, body, [class*="css"]  {
         font-family: 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', Arial, sans-serif !important;
     }
-    </style>
+    .main-title {
+        font-size: 2.4em;
+        font-weight: 800;
+        text-align: center;
+        margin-top: 32px;
+        margin-bottom: 8px;
+        letter-spacing: -1px;
+    }
+    .sub-title {
+        font-size: 1.5em;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 24px;
+        color: #4CAF50;
+    }
+    .logo-center {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+    }
+    .section-title {
+        font-size: 1.2em;
+        font-weight: 700;
+        margin-top: 32px;
+        margin-bottom: 12px;
+        color: #4CAF50;
+    }
+    .card {
+        background: #23272a;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        padding: 1.5em;
+        margin-bottom: 2em;
+    }
+    .main-btn {
+        width: 100%;
+        height: 80px;
+        font-size: 1.5em;
+        font-weight: 700;
+        border-radius: 10px;
+        margin: 0 auto 32px auto;
+        display: block;
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        border: none;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    .main-btn:hover {
+        box-shadow: 0 4px 16px rgba(76,175,80,0.15);
+        transform: translateY(-2px);
+    }
+    /* 모바일 대응 */
+    @media (max-width: 600px) {
+        .main-title { font-size: 1.5em; }
+        .sub-title { font-size: 1.1em; }
+        .main-btn { font-size: 1.1em; height: 60px; }
+    }
     """,
     unsafe_allow_html=True,
 )
