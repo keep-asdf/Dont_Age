@@ -24,7 +24,7 @@ st.markdown(
 # 로고 이미지 중앙 정렬
 col1, col2, col3 = st.columns([1, 3, 1])
 with col2:
-    st.image("logo.png", width=200)
+    st.image("logo.png", width=400)
 
 ##############
 ## 기본 셋팅 ##
