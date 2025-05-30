@@ -143,8 +143,8 @@ st.markdown(
     <style>
     div.stButton > button {
         width: 100%;
-        height: 100px;
-        font-size: 5em;
+        height: 100px;  /* em 대신 px로 고정 높이 지정 */
+        font-size: 5em;  /* 글자 크기만 조절 */
         margin: 0 auto;
         display: block;
         background-color: #4CAF50;
@@ -152,6 +152,7 @@ st.markdown(
         border-radius: 10px;
         border: none;
         transition: all 0.3s ease;
+        line-height: 100px;  /* 버튼 높이와 동일하게 설정 */
     }
     div.stButton > button:hover {
         background-color: #45a049;
