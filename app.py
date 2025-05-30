@@ -259,85 +259,12 @@ with col2:
             st.markdown("### 💡 종합 분석")
             st.success(result["reply"])
 
-            # 이미지 공유 버튼을 위한 CSS 추가
-            st.markdown(
-                """
-                <style>
-                .share-button {
-                    background-color: #1DA1F2;
-                    color: white;
-                    padding: 10px 20px;
-                    border-radius: 5px;
-                    border: none;
-                    cursor: pointer;
-                    font-size: 1.2em;
-                    margin: 10px 0;
-                }
-                .share-button:hover {
-                    background-color: #1991db;
-                }
-                </style>
-            """,
-                unsafe_allow_html=True,
-            )
-            # 이미지 공유 섹션 (식단 추천 버튼 조건문 밖으로 이동)
-            if st.session_state.current_meal is not None:  # 식단이 있는 경우에만 표시
-                st.markdown("### 📸 식단 공유하기")
-                col1, col2, col3 = st.columns([1, 2, 1])
-                with col2:
-                    if st.button("📸 식단 이미지 공유하기", use_container_width=True):
-                        st.session_state.image_generated = True
-
-                    if st.session_state.image_generated:
-                        st.info("이미지 생성 중...")
-                        # TODO: 이미지 생성 및 저장 로직 구현
-                        st.success("이미지가 생성되었습니다!")
-
-                        # 공유 버튼들
-                        st.markdown(
-                            """
-                            <div style='text-align: center'>
-                                <button class='share-button' onclick='window.open("https://twitter.com/intent/tweet?text=나의 젊밥 식단을 확인해보세요!")'>트위터 공유</button>
-                                <button class='share-button' onclick='window.open("https://www.facebook.com/sharer/sharer.php?u=YOUR_URL")'>페이스북 공유</button>
-                                <button class='share-button' onclick='window.open("https://api.whatsapp.com/send?text=나의 젊밥 식단을 확인해보세요!")'>카카오톡 공유</button>
-                            </div>
-                        """,
-                            unsafe_allow_html=True,
-                        )
-            # # 세션 상태에 이미지 생성 상태 추가
-            # if "image_generated" not in st.session_state:
-            #     st.session_state.image_generated = False
-
-            # # 이미지 공유 버튼 추가 부분을 다음과 같이 수정
-            # st.markdown("### 📸 식단 공유하기")
-            # col1, col2, col3 = st.columns([1, 2, 1])
-            # with col2:
-            #     if st.button("📸 식단 이미지 공유하기", use_container_width=True):
-            #         st.session_state.image_generated = True
-
-            #     if st.session_state.image_generated:
-            #         st.info("이미지 생성 중...")
-            #         # TODO: 이미지 생성 및 저장 로직 구현
-            #         st.success("이미지가 생성되었습니다!")
-
-            #         # 공유 버튼들
-            #         st.markdown(
-            #             """
-            #             <div style='text-align: center'>
-            #                 <button class='share-button' onclick='window.open("https://twitter.com/intent/tweet?text=나의 젊밥 식단을 확인해보세요!")'>트위터 공유</button>
-            #                 <button class='share-button' onclick='window.open("https://www.facebook.com/sharer/sharer.php?u=YOUR_URL")'>페이스북 공유</button>
-            #                 <button class='share-button' onclick='window.open("https://api.whatsapp.com/send?text=나의 젊밥 식단을 확인해보세요!")'>카카오톡 공유</button>
-            #             </div>
-            #         """,
-            #             unsafe_allow_html=True,
-            #         )
-
         else:
             remaining_time = timedelta(minutes=5) - (
                 current_time - st.session_state.last_meal_time
             )
             st.warning(
-                f"잠시만요! 다음 식단 추천까지 {int(remaining_time.total_seconds() / 60)}분 {int(remaining_time.total_seconds() % 60)}초 남았습니다."
+                f"잠시만요! 다음 식단 추천까지 {int(remaining_time.total_seconds())}초 {int(remaining_time.total_seconds() % 60)}초 남았습니다."
             )
 
 
