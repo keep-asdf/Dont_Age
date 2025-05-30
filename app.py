@@ -144,7 +144,7 @@ st.markdown(
     div.stButton > button {
         width: 100%;
         height: 4em;
-        font-size: 10em;
+        font-size: 5em;
         margin: 0 auto;
         display: block;
         background-color: #4CAF50;
