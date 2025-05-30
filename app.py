@@ -68,8 +68,8 @@ def analyze_meal(meal):
 
 
 # 🌐 Streamlit UI
-st.set_page_config(page_title="늙지마켓 🍱", layout="centered")
-st.title("🍱 늙지마켓")
+st.set_page_config(page_title="젊밥 🍱", layout="centered")
+st.title("🍱 젊어지는 밥상 - 젊밥")
 st.caption("늙음을 막는 한 끼 식단, GPT가 분석해드립니다.")
 
 # 👉 식단 추천
