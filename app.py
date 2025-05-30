@@ -3,6 +3,12 @@ import random
 import json
 import google.generativeai as genai
 
+
+# 🌐 Streamlit UI 구성
+st.set_page_config(page_title="젊밥 🍱", layout="centered")
+st.title("🍱 젊어지는 밥상 - 젊밥")
+
+
 ##############
 ## 기본 셋팅 ##
 ##############
@@ -133,11 +139,6 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
-
-
-# 🌐 Streamlit UI 구성
-st.set_page_config(page_title="젊밥 🍱", layout="centered")
-st.title("🍱 젊어지는 밥상 - 젊밥")
 
 
 # 👉 식단 추천
