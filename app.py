@@ -253,11 +253,6 @@ with col2:
                 f"잠시만요! 다음 식단 추천까지 {int(remaining_time.total_seconds() / 60)}분 {int(remaining_time.total_seconds() % 60)}초 남았습니다."
             )
 
-# 현재 상태 표시
-if st.session_state.last_meal_time:
-    st.sidebar.write(
-        "마지막 식단 추천 시간:", st.session_state.last_meal_time.strftime("%H:%M:%S")
-    )
 # ---------------------------------------#
 # # 👉 식단 추천
 # if st.button("🔁 오늘의 식단 추천받기"):
