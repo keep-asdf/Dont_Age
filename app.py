@@ -168,6 +168,10 @@ if "last_meal_time" not in st.session_state:
     st.session_state.last_meal_time = None
 if "question_count" not in st.session_state:
     st.session_state.question_count = 0
+if "image_generated" not in st.session_state:
+    st.session_state.image_generated = False
+if "current_meal" not in st.session_state:
+    st.session_state.current_meal = None
 
 # 버튼을 컨테이너로 감싸서 중앙 정렬
 # 버튼만 중앙에 배치
@@ -180,7 +184,17 @@ with col2:
             current_time - st.session_state.last_meal_time
         ) > timedelta(seconds=10):
             st.session_state.last_meal_time = current_time
+            st.session_state.image_generated = False  # 이미지 생성 상태 초기화
             meal = get_random_meal()
+            st.session_state.current_meal = meal  # 현재 식단 저장
+
+            # current_time = datetime.now()
+
+            # if st.session_state.last_meal_time is None or (
+            #     current_time - st.session_state.last_meal_time
+            # ) > timedelta(seconds=10):
+            #     st.session_state.last_meal_time = current_time
+            #     meal = get_random_meal()
 
             st.subheader("🥗 식단 구성")
             st.markdown(
@@ -266,34 +280,57 @@ with col2:
             """,
                 unsafe_allow_html=True,
             )
-            
-            # 세션 상태에 이미지 생성 상태 추가
-            if "image_generated" not in st.session_state:
-                st.session_state.image_generated = False
+            # 이미지 공유 섹션 (식단 추천 버튼 조건문 밖으로 이동)
+            if st.session_state.current_meal is not None:  # 식단이 있는 경우에만 표시
+                st.markdown("### 📸 식단 공유하기")
+                col1, col2, col3 = st.columns([1, 2, 1])
+                with col2:
+                    if st.button("📸 식단 이미지 공유하기", use_container_width=True):
+                        st.session_state.image_generated = True
 
-            # 이미지 공유 버튼 추가 부분을 다음과 같이 수정
-            st.markdown("### 📸 식단 공유하기")
-            col1, col2, col3 = st.columns([1, 2, 1])
-            with col2:
-                if st.button("📸 식단 이미지 공유하기", use_container_width=True):
-                    st.session_state.image_generated = True
-                
-                if st.session_state.image_generated:
-                    st.info("이미지 생성 중...")
-                    # TODO: 이미지 생성 및 저장 로직 구현
-                    st.success("이미지가 생성되었습니다!")
-                    
-                    # 공유 버튼들
-                    st.markdown(
-                        """
-                        <div style='text-align: center'>
-                            <button class='share-button' onclick='window.open("https://twitter.com/intent/tweet?text=나의 젊밥 식단을 확인해보세요!")'>트위터 공유</button>
-                            <button class='share-button' onclick='window.open("https://www.facebook.com/sharer/sharer.php?u=YOUR_URL")'>페이스북 공유</button>
-                            <button class='share-button' onclick='window.open("https://api.whatsapp.com/send?text=나의 젊밥 식단을 확인해보세요!")'>카카오톡 공유</button>
-                        </div>
-                    """,
-                        unsafe_allow_html=True,
-                    )
+                    if st.session_state.image_generated:
+                        st.info("이미지 생성 중...")
+                        # TODO: 이미지 생성 및 저장 로직 구현
+                        st.success("이미지가 생성되었습니다!")
+
+                        # 공유 버튼들
+                        st.markdown(
+                            """
+                            <div style='text-align: center'>
+                                <button class='share-button' onclick='window.open("https://twitter.com/intent/tweet?text=나의 젊밥 식단을 확인해보세요!")'>트위터 공유</button>
+                                <button class='share-button' onclick='window.open("https://www.facebook.com/sharer/sharer.php?u=YOUR_URL")'>페이스북 공유</button>
+                                <button class='share-button' onclick='window.open("https://api.whatsapp.com/send?text=나의 젊밥 식단을 확인해보세요!")'>카카오톡 공유</button>
+                            </div>
+                        """,
+                            unsafe_allow_html=True,
+                        )
+            # # 세션 상태에 이미지 생성 상태 추가
+            # if "image_generated" not in st.session_state:
+            #     st.session_state.image_generated = False
+
+            # # 이미지 공유 버튼 추가 부분을 다음과 같이 수정
+            # st.markdown("### 📸 식단 공유하기")
+            # col1, col2, col3 = st.columns([1, 2, 1])
+            # with col2:
+            #     if st.button("📸 식단 이미지 공유하기", use_container_width=True):
+            #         st.session_state.image_generated = True
+
+            #     if st.session_state.image_generated:
+            #         st.info("이미지 생성 중...")
+            #         # TODO: 이미지 생성 및 저장 로직 구현
+            #         st.success("이미지가 생성되었습니다!")
+
+            #         # 공유 버튼들
+            #         st.markdown(
+            #             """
+            #             <div style='text-align: center'>
+            #                 <button class='share-button' onclick='window.open("https://twitter.com/intent/tweet?text=나의 젊밥 식단을 확인해보세요!")'>트위터 공유</button>
+            #                 <button class='share-button' onclick='window.open("https://www.facebook.com/sharer/sharer.php?u=YOUR_URL")'>페이스북 공유</button>
+            #                 <button class='share-button' onclick='window.open("https://api.whatsapp.com/send?text=나의 젊밥 식단을 확인해보세요!")'>카카오톡 공유</button>
+            #             </div>
+            #         """,
+            #             unsafe_allow_html=True,
+            #         )
 
         else:
             remaining_time = timedelta(minutes=5) - (
