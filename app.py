@@ -5,6 +5,12 @@ import google.generativeai as genai
 from datetime import datetime, timedelta
 import os
 
+
+# 🌐 Streamlit UI 구성
+st.set_page_config(page_title="젊밥 🍱", layout="centered")
+# st.title("🍱 저속노화를 위한 젊어지는 밥상 - 젊밥")
+
+
 # CSS 스타일 추가 (페이지 상단에 추가)
 st.markdown(
     """
@@ -168,9 +174,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# 🌐 Streamlit UI 구성
-st.set_page_config(page_title="젊밥 🍱", layout="centered")
-# st.title("🍱 저속노화를 위한 젊어지는 밥상 - 젊밥")
+
 st.markdown(
     """
 <div style='text-align: center'>
