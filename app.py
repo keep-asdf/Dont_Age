@@ -10,10 +10,6 @@ import os
 st.set_page_config(page_title="젊밥 🍱", layout="centered")
 # st.title("🍱 저속노화를 위한 젊어지는 밥상 - 젊밥")
 
-# 로고 이미지 중앙 정렬
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    st.image("logo.png", width=200)  # width 값은 로고 크기에 따라 조절 가능합니다
 
 st.markdown(
     """
@@ -24,6 +20,12 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
+
+# 로고 이미지 중앙 정렬
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.image("logo.png", width=200)  # width 값은 로고 크기에 따라 조절 가능합니다
+
 
 ##############
 ## 기본 셋팅 ##
