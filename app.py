@@ -22,10 +22,10 @@ st.markdown(
 )
 
 # 로고 이미지 중앙 정렬
-col1, col2, col3 = st.columns([1,3,1])
+col1, col2, col3 = st.columns([1, 3, 1])
 with col2:
-    st.image("logo.png", width=200)  
-    
+    st.image("logo.png", width=200)
+
 ##############
 ## 기본 셋팅 ##
 ##############
@@ -503,3 +503,15 @@ with col2:
 #     st.sidebar.write(
 #         "마지막 식단 추천 시간:", st.session_state.last_meal_time.strftime("%H:%M:%S")
 #     )
+
+# 기존 제목/부제목은 그대로 두고,
+# 이미지만 중앙 정렬하고 싶을 때
+
+st.markdown(
+    """
+    <div style='display: flex; justify-content: center; align-items: center; margin: 20px 0;'>
+        <img src='logo.png' width='180'/>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
