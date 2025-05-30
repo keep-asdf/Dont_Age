@@ -187,10 +187,15 @@ with col2:
             st.session_state.last_meal_time = current_time
             meal = get_random_meal()
 
-            st.subheader("🥗 식단 구성")
+            st.markdown(
+                """
+                <h2 style='font-size: 2.5em; text-align: center; margin-bottom: 1em;'>🥗 식단 구성</h2>
+                """,
+                unsafe_allow_html=True,
+            )
             st.markdown(
                 f"""
-                <div style='font-size: 2em; line-height: 2em;'>
+                <div style='font-size: 1.5em; line-height: 2em;'>
                     <p style='margin-bottom: 1em;'>- 🍚 <strong>주식</strong>: {meal['grain']}</p>
                     <p style='margin-bottom: 1em;'>- 🍗 <strong>단백질</strong>: {meal['protein']}</p>
                     <p style='margin-bottom: 1em;'>- 🥦 <strong>채소</strong>: {meal['vegetable']}</p>
