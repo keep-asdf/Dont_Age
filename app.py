@@ -75,7 +75,7 @@ with col2:
             st.markdown(
                 """
                 <div style='font-size: 2em; text-align: center; margin: 1em 0;'>
-                    <strong>🤖 젊밥 AI</strong>가 식단을 분석 중입니다 
+                    <strong>🤖 젊밥 AI</strong>가 식단을 분석 중입니다... 
                 </div>
                 """,
                 unsafe_allow_html=True,
